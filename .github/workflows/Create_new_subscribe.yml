@@ -30,8 +30,8 @@ jobs:
     - name: Run push a new branch
       run: |
         echo -e "push new subscribe file"
-        git config --global user.email "hcjonline@gmail.com"
-        git config --global user.name "hcaijin"
+        git config user.name "${GITHUB_ACTOR}"
+        git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
         git branch download_branch 
         git add .
         git commit -m 'Auto Pushd From Action'
