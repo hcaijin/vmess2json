@@ -27,10 +27,18 @@ jobs:
         echo -e "Download gistsub.txt"
         wget https://gist.githubusercontent.com/cutelua/e51eb3408409adc6bbb9d11246bea623/raw/txt -O gistsub.txt
         cat gistsub.txt | python3 vmessviewer.py --hide --addws
-    - name: Run push a new branch
-      run: |
-        echo -e "push new subscribe file"
-        git branch download_branch 
-        git add .
-        git commit -m 'Auto Pushd From Action'
-        git push --force master:download_branch
+    - name: Create a branch
+      uses: actions/bin/filter@b2bea0749eed6beb495a8fa194c071847af60ea1
+      with:
+        args: "branch download_branch"
+    - name: Run push to master
+      uses: tcitry/push-to-master/@v1.0
+      with:
+        args: download_branch
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name : Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: new_subcribe
+        path: file
