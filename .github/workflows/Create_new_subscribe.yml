@@ -30,9 +30,7 @@ jobs:
     - name: Run push a new branch
       run: |
         echo -e "push new subscribe file"
-        rm -rf .git
-        git init
         git branch download_branch 
         git add .
         git commit -m 'Auto Pushd From Action'
-        git push --force master@download_branch
+        git push --force master:download_branch
