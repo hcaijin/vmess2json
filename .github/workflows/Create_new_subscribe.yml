@@ -22,6 +22,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
+    - name: Upgrade to Python 3
+      uses: cclauss/Upgrade-to-Python3@0.1.0
     - name: Run test show hello
       run: echo Hello, world!
     - name: Run python vmessviews.py
@@ -32,5 +34,5 @@ jobs:
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: vmess2json
-        path: vmess2json/file
+        name: new_subcribe
+        path: file
