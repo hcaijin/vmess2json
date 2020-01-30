@@ -97,6 +97,7 @@ def view_loop(lines):
         if option.addws and _vinfo["net"] == "ws":
             _vinfo['ws-headers'] = {'Host': _vinfo['add']}
             _vinfo['skip-cert-verify'] = True
+            _vinfo['ps'] = "[{}]{}".format(cnt, _vinfo['ps'])
             #  print(_vinfo)
             #  vinfodir.append(_vinfo)
             vmesslink += 'vmess://{}{}'.format(encode(json.dumps(_vinfo)), "\n")
