@@ -35,7 +35,7 @@ jobs:
         git branch download_branch 
         git add .
         git commit -m 'Auto Pushd From Action'
-        git push --force master:download_branch
+        git push --force https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git master:download_branch
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
