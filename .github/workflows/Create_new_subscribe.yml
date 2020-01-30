@@ -4,15 +4,15 @@ on:
   release:
     types: [published]
 
-  #push:
-  # branches: 
-  #   - master
+  push:
+   branches: 
+     - master
 
   #schedule:
   #  - cron: 0 7 * * *
   
-  watch:
-    types: [started]
+  #watch:
+  #  types: [started]
 
 
 jobs:
@@ -32,3 +32,9 @@ jobs:
       with:
         name: new_subcribe
         path: file
+    - name: Upload to release
+        uses: JasonEtco/upload-to-release@master
+        with:
+          args: file/new_subcribe.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
