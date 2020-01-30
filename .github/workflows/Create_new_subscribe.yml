@@ -1,0 +1,36 @@
+name: Create_new_subscribe_CI
+
+on: 
+  release:
+    types: [published]
+
+  #push:
+  # branches: 
+  #   - master
+
+  #schedule:
+  #  - cron: 0 7 * * *
+  
+  watch:
+    types: [started]
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Run test show hello
+      run: echo Hello, world!
+    - name: Run python vmessviews.py
+      run: |
+        echo -e "Download gistsub.txt"
+        wget https://gist.githubusercontent.com/cutelua/e51eb3408409adc6bbb9d11246bea623/raw/txt -O gistsub.txt
+        cat gistsub.txt | python vmessviewer.py --hide --addws
+    - name : Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: vmess2json
+        path: vmess2json/file
