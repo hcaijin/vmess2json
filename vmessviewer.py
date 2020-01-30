@@ -107,7 +107,7 @@ def view_loop(lines):
         #  print(json.dumps(encode(vmesslink)))
         indata = encode(vmesslink)
         #  print(indata)
-        with open('new_subcribe.txt', 'w') as f:
+        with open('./file/new_subcribe.txt', 'w') as f:
             f.write(indata)
         #  blen = len(indata)
         #  if blen % 4 > 0:
