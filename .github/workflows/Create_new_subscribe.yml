@@ -22,15 +22,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
-    - name: Upgrade to Python 3
-      uses: cclauss/Upgrade-to-Python3@0.1.0
-    - name: Run test show hello
-      run: echo Hello, world!
     - name: Run python vmessviews.py
       run: |
         echo -e "Download gistsub.txt"
         wget https://gist.githubusercontent.com/cutelua/e51eb3408409adc6bbb9d11246bea623/raw/txt -O gistsub.txt
-        cat gistsub.txt | python vmessviewer.py --hide --addws
+        cat gistsub.txt | python3 vmessviewer.py --hide --addws
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
