@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-import os
 import sys
-import re
 import json
 import base64
 import argparse
@@ -71,12 +69,16 @@ def parseVmess(vmesslink):
     else:
         raise Exception("vmess link invalid")
 
+def encode(string):
+    return base64.urlsafe_b64encode(
+        bytes(str(string), 'utf-8')).decode('utf-8').replace('=', '')
 
 def view_loop(lines):
 
     def msg(
         x): return "{ps} / {net} / {add}:{port} / net:{net}/aid:{aid}/host:{host}/path:{path}/tls:{tls}/type:{type}".format(**x)
 
+    vmesslink = str()
     cnt = 0
     for _, _v in enumerate(lines):
         if _v.strip() == "":
@@ -92,6 +94,26 @@ def view_loop(lines):
         print("#[{}] {}".format(cnt, ml))
         if not option.hide:
             print(_v+"\n")
+        if option.addws and _vinfo["net"] == "ws":
+            _vinfo['ws-headers'] = {'Host': _vinfo['add']}
+            _vinfo['skip-cert-verify'] = True
+            #  print(_vinfo)
+            #  vinfodir.append(_vinfo)
+            vmesslink += 'vmess://{}{}'.format(encode(json.dumps(_vinfo)), "\n")
+
+    if vmesslink != "":
+        #  print("Nice")
+        #  print(vmesslink)
+        #  print(json.dumps(encode(vmesslink)))
+        indata = encode(vmesslink)
+        #  print(indata)
+        with open('new_subcribe.txt', 'w') as f:
+            f.write(indata)
+        #  blen = len(indata)
+        #  if blen % 4 > 0:
+            #  indata += "=" * (4 - blen % 4)
+        #  lines = base64.b64decode(indata).decode().splitlines()
+        #  print(lines)
 
 
 if __name__ == "__main__":
@@ -100,6 +122,8 @@ if __name__ == "__main__":
         description="vmess subscribe file editor.")
     parser.add_argument('--hide', action='store_true',
                         help="hide origin vmess, just show info")
+    parser.add_argument('--addws', action='store_true',
+                        help="Add if net is ws will add new subscribe file")
     parser.add_argument('subs',
                         nargs='?',
                         type=argparse.FileType('r'),
@@ -110,6 +134,9 @@ if __name__ == "__main__":
     indata = option.subs.read().strip()
 
     try:
+        blen = len(indata)
+        if blen % 4 > 0:
+            indata += "=" * (4 - blen % 4)
         lines = base64.b64decode(indata).decode().splitlines()
     except (binascii.Error, UnicodeDecodeError):
         lines = indata.splitlines()
