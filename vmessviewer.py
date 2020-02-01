@@ -95,8 +95,8 @@ def view_loop(lines):
         if not option.hide:
             print(_v+"\n")
         if option.addws and _vinfo["net"] == "ws":
-            _vinfo['ws-headers'] = {'Host': _vinfo['add']}
-            _vinfo['skip-cert-verify'] = True
+            _vinfo['Host'] = _vinfo['add']
+            _vinfo['verify'] = True
             _vinfo['ps'] = "#[{}]{}".format(cnt, _vinfo['ps'])
             #  print(_vinfo)
             #  vinfodir.append(_vinfo)
